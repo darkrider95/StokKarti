@@ -1,6 +1,6 @@
 # StokKarti
 
-###Study Case 
+### Study Case 
 Java programlama dili ile geliştirilecek bir masaüstü uygulaması.
 
 Veritabanı bağlantısı için mysql-connector,
