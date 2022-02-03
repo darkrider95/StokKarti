@@ -18,7 +18,6 @@ Uygulamada olması gereken fonksiyonlar;
 
 # Veritabanı Bağlantısı
 
-----
 [install mysql-connector](https://www.mysql.com/products/connector/)
 
 [Java mysql veritabanı bağlantısı ](https://stackoverflow.com/questions/2839321/connect-java-to-a-mysql-database/)
