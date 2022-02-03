@@ -16,7 +16,7 @@ Uygulamada olması gereken fonksiyonlar;
 * Stok kartına ait bütün bilgilerin componentlerde görünmesi
 * Arama
 
-#Veritabanı Bağlantısı
+# Veritabanı Bağlantısı
 
 ----
 [install mysql-connector](https://www.mysql.com/products/connector/)
