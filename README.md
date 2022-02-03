@@ -25,7 +25,7 @@ sudo apt install mysql-server
 sudo mysql_secure_installation
 ```
 * Veritabanı ve kullanıcı oluşturma
-```
+```sql
 mysql -u root -p
 
 mysql> CREATE DATABASE stok CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -55,5 +55,6 @@ mysql> CREATE TABLE StokKartlari(
 
 
 * Veritabanı işlemleri için aşağıdaki siteden istediğimiz özelliklerde sahte veri oluşturabiliriz.
+
   https://www.mockaroo.com/
 
