@@ -1,10 +1,12 @@
+package com.app.Helper;
+
 import java.sql.*;
 
+import static com.app.Helper.Config.*;
+
 public class jdbc {
-    public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/stok?autoReconnect=true&useSSL=false";
-        String username = "haluk";
-        String password = "password";
+    private Connection connect = null;
+    public Connection connectDB() {
 
         System.out.println("Loading driver...");
 
@@ -17,10 +19,17 @@ public class jdbc {
 
         System.out.println("Connecting database...");
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        try {
+            this.connect = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             System.out.println("Database connected!");
         } catch (SQLException e) {
             throw new IllegalStateException("Cannot connect the database!", e);
         }
+        return this.connect;
+    }
+
+    public static Connection getInstance(){
+        jdbc db = new jdbc();
+        return db.connectDB();
     }
 }
