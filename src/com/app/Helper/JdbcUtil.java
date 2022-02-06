@@ -2,9 +2,9 @@ package com.app.Helper;
 
 import java.sql.*;
 
-import static com.app.Helper.Config.*;
+import static com.app.Const.Config.*;
 
-public class jdbc {
+public class JdbcUtil {
     private Connection connect = null;
     public Connection connectDB() {
 
@@ -29,7 +29,7 @@ public class jdbc {
     }
 
     public static Connection getInstance(){
-        jdbc db = new jdbc();
+        JdbcUtil db = new JdbcUtil();
         return db.connectDB();
     }
 }

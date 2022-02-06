@@ -1,59 +1,53 @@
 package com.app.Model;
 
-import com.app.Helper.jdbc;
-import com.sun.source.tree.WhileLoopTree;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.Date;
 
 public class StokKartlari {
-    private String stok_kodu;
-    private String stok_adi;
-    private Integer stok_tipi;
+    private String stokKodu;
+    private String stokAdi;
+    private Integer stokTipi;
     private String birimi;
     private String barkodu;
-    private Double kdv_tipi;
+    private Double kdvTipi;
     private String aciklama;
-    private Date olusturma_tarihi;
+    private Date olusturmaTarihi;
 
     public StokKartlari(){}
 
-    public StokKartlari(String stok_kodu, String stok_adi, Integer stok_tipi, String birimi, String barkodu, Double kdv_tipi, String aciklama, Date olusturma_tarihi) {
-        this.stok_kodu = stok_kodu;
-        this.stok_adi = stok_adi;
-        this.stok_tipi = stok_tipi;
+    public StokKartlari(String stokKodu, String stokAdi, Integer stokTipi, String birimi, String barkodu, Double kdvTipi, String aciklama, Date olusturmaTarihi) {
+        this.stokKodu = stokKodu;
+        this.stokAdi = stokAdi;
+        this.stokTipi = stokTipi;
         this.birimi = birimi;
         this.barkodu = barkodu;
-        this.kdv_tipi = kdv_tipi;
+        this.kdvTipi = kdvTipi;
         this.aciklama = aciklama;
-        this.olusturma_tarihi = olusturma_tarihi;
+        this.olusturmaTarihi = olusturmaTarihi;
     }
 
-    public String getStok_kodu() {
-        return stok_kodu;
+    public String getStokKodu() {
+        return stokKodu;
     }
 
-    public void setStok_kodu(String stok_kodu) {
-        this.stok_kodu = stok_kodu;
+    public void setStokKodu(String stokKodu) {
+        this.stokKodu = stokKodu;
     }
 
-    public String getStok_adi() {
-        return stok_adi;
+    public String getStokAdi() {
+        return stokAdi;
     }
 
-    public void setStok_adi(String stok_adi) {
-        this.stok_adi = stok_adi;
+    public void setStokAdi(String stokAdi) {
+        this.stokAdi = stokAdi;
     }
 
-    public Integer getStok_tipi() {
-        return stok_tipi;
+    public Integer getStokTipi() {
+        return stokTipi;
     }
 
-    public void setStok_tipi(Integer stok_tipi) {
-        this.stok_tipi = stok_tipi;
+    public void setStokTipi(Integer stokTipi) {
+        this.stokTipi = stokTipi;
     }
 
     public String getBirimi() {
@@ -72,12 +66,12 @@ public class StokKartlari {
         this.barkodu = barkodu;
     }
 
-    public Double getKdv_tipi() {
-        return kdv_tipi;
+    public Double getKdvTipi() {
+        return kdvTipi;
     }
 
-    public void setKdv_tipi(Double kdv_tipi) {
-        this.kdv_tipi = kdv_tipi;
+    public void setKdvTipi(Double kdvTipi) {
+        this.kdvTipi = kdvTipi;
     }
 
     public String getAciklama() {
@@ -88,40 +82,11 @@ public class StokKartlari {
         this.aciklama = aciklama;
     }
 
-    public Date getOlusturma_tarihi() {
-        return olusturma_tarihi;
+    public Date getOlusturmaTarihi() {
+        return olusturmaTarihi;
     }
 
-    public void setOlusturma_tarihi(Date olusturma_tarihi) {
-        this.olusturma_tarihi = olusturma_tarihi;
+    public void setOlusturmaTarihi(Date olusturmaTarihi) {
+        this.olusturmaTarihi = olusturmaTarihi;
     }
-
-
-
-    public static ArrayList<StokKartlari> getList() {
-        ArrayList<StokKartlari> stokList = new ArrayList<>();
-        String query = "SELECT * FROM StokKartlari";
-        StokKartlari obj;
-        try {
-            Statement st = jdbc.getInstance().createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()){
-                obj = new StokKartlari();
-                obj.setStok_kodu(rs.getString("stok_kodu"));
-                obj.setStok_adi(rs.getString("stok_adi"));
-                obj.setStok_tipi(rs.getInt("stok_tipi"));
-                obj.setBirimi(rs.getString("birimi"));
-                obj.setBarkodu(rs.getString("barkodu"));
-                obj.setKdv_tipi(rs.getDouble("kdv_tipi"));
-                obj.setAciklama(rs.getString("aciklama"));
-                obj.setOlusturma_tarihi(rs.getDate("olusturma_tarihi"));
-                stokList.add(obj);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return stokList;
-    }
-
 }
