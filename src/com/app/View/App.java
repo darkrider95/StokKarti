@@ -70,11 +70,11 @@ public class App extends JFrame {
 
     public void Add(){
         StokKartlari stokKartlari = getFieldData();
-        if(!checkInList(stokKartlari) && fieldStokKodu.getText().length() != 0 && fieldStokAdi.getText().length() != 0 ) {
+        if(!checkInList(stokKartlari) && fieldStokKodu.getText().length() != 0 && fieldStokAdi.getText().length() != 0 && fieldBarkodu.getText().length() != 0) {
             DataCollector.addStokKarti(stokKartlari);
             JOptionPane.showMessageDialog(null, "Ekleme işlemi başarılı.", "",JOptionPane.INFORMATION_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog(null, "Zorunlu alanları doldurun ya da geçerli bir stok kodu girin.", "Hata",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Zorunlu alanları doldurun ya da eşsiz bir stok kodu girin.", "Hata",JOptionPane.INFORMATION_MESSAGE);
         }
 
         //listemi güncelliyorum.
@@ -92,7 +92,7 @@ public class App extends JFrame {
                     stokKartlari.setStokKodu(value);
                     dataCollector.copyStokKarti(stokKartlari);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Tekil bir stok kodu giriniz..", "",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Eşsiz bir stok kodu girin.", "",JOptionPane.INFORMATION_MESSAGE);
                     Copy();
                 }
             }
