@@ -39,6 +39,7 @@ public class DataCollector {
         return stokList;
     }
 
+
     public static boolean addStokKarti(StokKartlari stokKartlari) {
         String query = "INSERT INTO StokKartlari (stok_kodu, stok_adi, stok_tipi, birimi, barkodu, kdv_tipi, aciklama, olusturma_tarihi) VALUES (?,?,?,?,?,?,?,?)";
         try {
@@ -52,6 +53,52 @@ public class DataCollector {
             pr.setString(7, stokKartlari.getAciklama());
             //pr.setDate(8, new java.sql.Date(stokKartlari.getOlusturmaTarihi().getTime()));
             pr.setDate(8, new java.sql.Date( new Date().getTime()));
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static boolean copyStokKarti(StokKartlari stokKartlari) {
+        String query = "INSERT INTO StokKartlari (stok_kodu, stok_adi, stok_tipi, birimi, barkodu, kdv_tipi, aciklama, olusturma_tarihi) VALUES (?,?,?,?,?,?,?,?)";
+        String max = "SELECT stok_kodu FROM StokKartlari ORDER BY stok_kodu DESC LIMIT 1";
+        try {
+            PreparedStatement pr = JdbcUtil.getInstance().prepareStatement(query);
+            PreparedStatement prMax = JdbcUtil.getInstance().prepareStatement(max);
+            ResultSet result = prMax.executeQuery();
+            result.next();
+            String value = result.getString("stok_kodu");
+            pr.setString(1, value+1);
+            pr.setString(2, stokKartlari.getStokAdi());
+            pr.setInt(3, stokKartlari.getStokTipi());
+            pr.setString(4, stokKartlari.getBirimi());
+            pr.setString(5, stokKartlari.getBarkodu());
+            pr.setDouble(6, stokKartlari.getKdvTipi());
+            pr.setString(7, stokKartlari.getAciklama());
+            //pr.setDate(8, new java.sql.Date(stokKartlari.getOlusturmaTarihi().getTime()));
+            pr.setDate(8, new java.sql.Date( new Date().getTime()));
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public static boolean updateStokKarti(StokKartlari stokKartlari) {
+        String query = "UPDATE StokKartlari SET stok_kodu =?,stok_adi =?,stok_tipi =?,birimi =?,barkodu =?,kdv_tipi =?,aciklama =?,olusturma_tarihi =? WHERE stok_kodu =?";
+        try {
+            PreparedStatement pr = JdbcUtil.getInstance().prepareStatement(query);
+            pr.setString(1, stokKartlari.getStokKodu());
+            pr.setString(2, stokKartlari.getStokAdi());
+            pr.setInt(3, stokKartlari.getStokTipi());
+            pr.setString(4, stokKartlari.getBirimi());
+            pr.setString(5, stokKartlari.getBarkodu());
+            pr.setDouble(6, stokKartlari.getKdvTipi());
+            pr.setString(7, stokKartlari.getAciklama());
+            //pr.setDate(8, new java.sql.Date(stokKartlari.getOlusturmaTarihi().getTime()));
+            pr.setDate(8, new java.sql.Date( new Date().getTime()));
+            pr.setString(9, stokKartlari.getStokKodu());
             return pr.executeUpdate() != -1;
         } catch (SQLException e) {
             e.printStackTrace();

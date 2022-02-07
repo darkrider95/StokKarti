@@ -8,7 +8,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -89,6 +92,39 @@ public class App extends JFrame {
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
     }
 
+    public void Copy(){
+        StokKartlari stokKartlari = new StokKartlari();
+        stokKartlari.setStokKodu(fieldStokKodu.getText());
+        stokKartlari.setStokAdi(fieldStokAdi.getText());
+        stokKartlari.setStokTipi(Integer.valueOf(comboStokTipi.getSelectedItem().toString()));
+        stokKartlari.setBirimi(comboBirimi.getSelectedItem().toString());
+        stokKartlari.setBarkodu(fieldBarkodu.getText());
+        stokKartlari.setKdvTipi(Double.valueOf(comboKdvTipi.getSelectedItem().toString()));
+        stokKartlari.setAciklama(fieldAciklama.getText());
+        stokKartlari.setOlusturmaTarihi(fieldOlusturmaTarihi.getDate());
+        dataCollector.copyStokKarti(stokKartlari);
+
+
+        //listemi güncelliyorum.
+        stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
+    }
+
+    public void Update(){
+        StokKartlari stokKartlari = new StokKartlari();
+        stokKartlari.setStokKodu(fieldStokKodu.getText());
+        stokKartlari.setStokAdi(fieldStokAdi.getText());
+        stokKartlari.setStokTipi(Integer.valueOf(comboStokTipi.getSelectedItem().toString()));
+        stokKartlari.setBirimi(comboBirimi.getSelectedItem().toString());
+        stokKartlari.setBarkodu(fieldBarkodu.getText());
+        stokKartlari.setKdvTipi(Double.valueOf(comboKdvTipi.getSelectedItem().toString()));
+        stokKartlari.setAciklama(fieldAciklama.getText());
+        stokKartlari.setOlusturmaTarihi(fieldOlusturmaTarihi.getDate());
+        dataCollector.updateStokKarti(stokKartlari);
+
+        //listemi güncelliyorum.
+        stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
+    }
+
     private boolean checkInList(StokKartlari stokKartlari) {
         return filtredStokKartlariList.stream().filter(o -> o.getStokKodu().equals(stokKartlari.getStokKodu())).findFirst().isPresent();
     }
@@ -111,15 +147,31 @@ public class App extends JFrame {
     }
 
     private boolean checkStokKartContains (StokKartlari stokKartlari, String searchText){
-        return (stokKartlari.getStokAdi() + stokKartlari.getStokKodu() + stokKartlari.getStokTipi())
-                .toUpperCase(new Locale("tr"))
-                .contains(searchText.toUpperCase(new Locale("tr")));
+        return (stokKartlari.getStokKodu() ).toUpperCase(new Locale("tr")).equals(searchText.toUpperCase(new Locale("tr")));
     }
 
     public String SelectedRow(){
         TableModel model = tableStokKartlari.getModel();
         String value = String.valueOf(model.getValueAt(tableStokKartlari.getSelectedRow(),0));
         return value;
+    }
+
+    public void ShowSelected(){
+        DefaultTableModel model = (DefaultTableModel)tableStokKartlari.getModel();
+        int selectedRowIndex = tableStokKartlari.getSelectedRow();
+        if (tableStokKartlari.getRowCount() == 1)
+            selectedRowIndex = 0;
+        fieldStokKodu.setText(model.getValueAt(selectedRowIndex, 0).toString());
+        fieldStokAdi.setText(model.getValueAt(selectedRowIndex, 1).toString());
+        comboStokTipi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 2));
+        comboBirimi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 3));
+        fieldBarkodu.setText(model.getValueAt(selectedRowIndex, 4).toString());
+        comboKdvTipi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 5));
+        if(model.getValueAt(selectedRowIndex, 6) != null) {
+            fieldAciklama.setText(model.getValueAt(selectedRowIndex, 6).toString());
+        }
+        else fieldAciklama.setText("");
+        fieldOlusturmaTarihi.setDate((Date) model.getValueAt(selectedRowIndex, 7));
     }
 
     public App()  {
@@ -130,7 +182,6 @@ public class App extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
-
 
         buttonListele.addActionListener(new ActionListener() {
             @Override
@@ -150,13 +201,37 @@ public class App extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Search();
+                ShowSelected();
             }
+
         });
         buttonSil.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean result = dataCollector.deleteStokKarti(SelectedRow());
                 stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
+                List();
+            }
+        });
+        tableStokKartlari.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ShowSelected();
+
+            }
+        });
+        buttonGuncelle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Update();
+                List();
+            }
+        });
+        buttonKopyala.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Copy();
                 List();
             }
         });
