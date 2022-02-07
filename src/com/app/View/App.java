@@ -2,7 +2,6 @@ package com.app.View;
 import com.app.Helper.DataCollector;
 import com.app.Model.StokKartlari;
 import com.toedter.calendar.JDateChooser;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -48,6 +47,7 @@ public class App extends JFrame {
 
 
 
+
     public void List(){
         
         modelStokKartlari = new DefaultTableModel();
@@ -80,13 +80,12 @@ public class App extends JFrame {
         stokKartlari.setKdvTipi(Double.valueOf(comboKdvTipi.getSelectedItem().toString()));
         stokKartlari.setAciklama(fieldAciklama.getText());
         stokKartlari.setOlusturmaTarihi(fieldOlusturmaTarihi.getDate());
-        if(!checkInList(stokKartlari)){
-            boolean result = dataCollector.addStokKarti(stokKartlari);
+        if(!checkInList(stokKartlari) && fieldStokKodu.getText().length() != 0 && fieldStokAdi.getText().length() != 0 ) {
+            DataCollector.addStokKarti(stokKartlari);
+            JOptionPane.showMessageDialog(null, "Ekleme işlemi başarılı.", "",JOptionPane.INFORMATION_MESSAGE);
         }else{
-            //TODO:Hata fırlat açıklaması aşağıda var!
-            //throw Exception();//stok kodu zaten mevcut
+            JOptionPane.showMessageDialog(null, "Zorunlu alanları doldurun ya da geçerli bir stok kodu girin.", "Hata",JOptionPane.INFORMATION_MESSAGE);
         }
-
 
         //listemi güncelliyorum.
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
