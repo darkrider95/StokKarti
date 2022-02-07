@@ -1,10 +1,15 @@
 package com.app.View;
+import com.app.Const.Config;
 import com.app.Helper.DataCollector;
 import com.app.Model.StokKartlari;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,8 +18,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static com.app.Const.Config.COLUMN_STOK_LIST;
 
 public class App extends JFrame {
 
@@ -28,7 +34,6 @@ public class App extends JFrame {
     private JComboBox comboKdvTipi;
     private JTextArea fieldAciklama;
     private JTextField fieldAra;
-
     private JPanel mainField;
     public JTable tableStokKartlari;
     private JScrollPane scrollStokKartlari;
@@ -37,26 +42,20 @@ public class App extends JFrame {
     private JTextField fieldStokAdi;
     private JTextField fieldBarkodu;
     private JDateChooser fieldOlusturmaTarihi;
-
     private DefaultTableModel modelStokKartlari;
-
     private DataCollector dataCollector;
-
     private ArrayList<StokKartlari> stokKartlariList;
     private ArrayList<StokKartlari> filtredStokKartlariList;
-
-
-
 
     public void List(){
         
         modelStokKartlari = new DefaultTableModel();
-        modelStokKartlari.setColumnIdentifiers(COLUMN_STOK_LIST);
+        modelStokKartlari.setColumnIdentifiers(Config.COLUMN_STOK_LIST);
         tableStokKartlari.setModel(modelStokKartlari);
         tableStokKartlari.getTableHeader().setReorderingAllowed(false);
         modelStokKartlari.setRowCount(0);
             for (StokKartlari obj : filtredStokKartlariList){
-                Object[] row = new Object[COLUMN_STOK_LIST.length];
+                Object[] row = new Object[Config.COLUMN_STOK_LIST.length];
                 row[0] = obj.getStokKodu();
                 row[1] = obj.getStokAdi();
                 row[2] = obj.getStokTipi();
@@ -69,17 +68,8 @@ public class App extends JFrame {
             }
     }
 
-
     public void Add(){
-        StokKartlari stokKartlari = new StokKartlari();
-        stokKartlari.setStokKodu(fieldStokKodu.getText());
-        stokKartlari.setStokAdi(fieldStokAdi.getText());
-        stokKartlari.setStokTipi(Integer.valueOf(comboStokTipi.getSelectedItem().toString()));
-        stokKartlari.setBirimi(comboBirimi.getSelectedItem().toString());
-        stokKartlari.setBarkodu(fieldBarkodu.getText());
-        stokKartlari.setKdvTipi(Double.valueOf(comboKdvTipi.getSelectedItem().toString()));
-        stokKartlari.setAciklama(fieldAciklama.getText());
-        stokKartlari.setOlusturmaTarihi(fieldOlusturmaTarihi.getDate());
+        StokKartlari stokKartlari = getFieldData();
         if(!checkInList(stokKartlari) && fieldStokKodu.getText().length() != 0 && fieldStokAdi.getText().length() != 0 ) {
             DataCollector.addStokKarti(stokKartlari);
             JOptionPane.showMessageDialog(null, "Ekleme işlemi başarılı.", "",JOptionPane.INFORMATION_MESSAGE);
@@ -92,23 +82,41 @@ public class App extends JFrame {
     }
 
     public void Copy(){
-        StokKartlari stokKartlari = new StokKartlari();
-        stokKartlari.setStokKodu(fieldStokKodu.getText());
-        stokKartlari.setStokAdi(fieldStokAdi.getText());
-        stokKartlari.setStokTipi(Integer.valueOf(comboStokTipi.getSelectedItem().toString()));
-        stokKartlari.setBirimi(comboBirimi.getSelectedItem().toString());
-        stokKartlari.setBarkodu(fieldBarkodu.getText());
-        stokKartlari.setKdvTipi(Double.valueOf(comboKdvTipi.getSelectedItem().toString()));
-        stokKartlari.setAciklama(fieldAciklama.getText());
-        stokKartlari.setOlusturmaTarihi(fieldOlusturmaTarihi.getDate());
-        dataCollector.copyStokKarti(stokKartlari);
-
+        StokKartlari stokKartlari = getFieldData();
+        if(checkStokKodu(stokKartlari.getStokKodu())){
+            dataCollector.copyStokKarti(stokKartlari);
+        }else{
+            String value = JOptionPane.showInputDialog(this, "Yeni stok kartı için Stok Kodu girin.");
+            if(value != null){
+                if(checkStokKodu(value)){
+                    stokKartlari.setStokKodu(value);
+                    dataCollector.copyStokKarti(stokKartlari);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Tekil bir stok kodu giriniz..", "",JOptionPane.INFORMATION_MESSAGE);
+                    Copy();
+                }
+            }
+        }
 
         //listemi güncelliyorum.
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
     }
 
+    public boolean checkStokKodu(String value){
+        for(StokKartlari stokKartlari : stokKartlariList){
+            if(stokKartlari.getStokKodu().equals(value))
+                return false;
+        }
+        return true;
+    }
     public void Update(){
+        StokKartlari stokKartlari = getFieldData();
+        dataCollector.updateStokKarti(stokKartlari);
+
+        //listemi güncelliyorum.
+        stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
+    }
+    public StokKartlari getFieldData(){
         StokKartlari stokKartlari = new StokKartlari();
         stokKartlari.setStokKodu(fieldStokKodu.getText());
         stokKartlari.setStokAdi(fieldStokAdi.getText());
@@ -118,10 +126,7 @@ public class App extends JFrame {
         stokKartlari.setKdvTipi(Double.valueOf(comboKdvTipi.getSelectedItem().toString()));
         stokKartlari.setAciklama(fieldAciklama.getText());
         stokKartlari.setOlusturmaTarihi(fieldOlusturmaTarihi.getDate());
-        dataCollector.updateStokKarti(stokKartlari);
-
-        //listemi güncelliyorum.
-        stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
+        return stokKartlari;
     }
 
     private boolean checkInList(StokKartlari stokKartlari) {
@@ -142,7 +147,6 @@ public class App extends JFrame {
                 filtredStokKartlariList = new ArrayList<StokKartlari>(tempList);
             }
         }
-        List();
     }
 
     private boolean checkStokKartContains (StokKartlari stokKartlari, String searchText){
@@ -156,21 +160,25 @@ public class App extends JFrame {
     }
 
     public void ShowSelected(){
-        DefaultTableModel model = (DefaultTableModel)tableStokKartlari.getModel();
-        int selectedRowIndex = tableStokKartlari.getSelectedRow();
-        if (tableStokKartlari.getRowCount() == 1)
-            selectedRowIndex = 0;
-        fieldStokKodu.setText(model.getValueAt(selectedRowIndex, 0).toString());
-        fieldStokAdi.setText(model.getValueAt(selectedRowIndex, 1).toString());
-        comboStokTipi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 2));
-        comboBirimi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 3));
-        fieldBarkodu.setText(model.getValueAt(selectedRowIndex, 4).toString());
-        comboKdvTipi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 5));
-        if(model.getValueAt(selectedRowIndex, 6) != null) {
-            fieldAciklama.setText(model.getValueAt(selectedRowIndex, 6).toString());
+        try {
+            DefaultTableModel model = (DefaultTableModel)tableStokKartlari.getModel();
+            int selectedRowIndex = tableStokKartlari.getSelectedRow();
+            if (tableStokKartlari.getRowCount() == 1)
+                selectedRowIndex = 0;
+            fieldStokKodu.setText(model.getValueAt(selectedRowIndex, 0).toString());
+            fieldStokAdi.setText(model.getValueAt(selectedRowIndex, 1).toString());
+            comboStokTipi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 2));
+            comboBirimi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 3));
+            fieldBarkodu.setText(model.getValueAt(selectedRowIndex, 4).toString());
+            comboKdvTipi.getModel().setSelectedItem(tableStokKartlari.getValueAt(selectedRowIndex, 5));
+            if(model.getValueAt(selectedRowIndex, 6) != null) {
+                fieldAciklama.setText(model.getValueAt(selectedRowIndex, 6).toString());
+            }
+            else fieldAciklama.setText("");
+            fieldOlusturmaTarihi.setDate((Date) model.getValueAt(selectedRowIndex, 7));
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        else fieldAciklama.setText("");
-        fieldOlusturmaTarihi.setDate((Date) model.getValueAt(selectedRowIndex, 7));
     }
 
     public App()  {
@@ -181,6 +189,19 @@ public class App extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
+
+        ((AbstractDocument)fieldStokKodu.getDocument()).setDocumentFilter(new DocumentFilter(){
+            Pattern regEx = Pattern.compile("\\d*");
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                Matcher matcher = regEx.matcher(text);
+                if(!matcher.matches()){
+                    return;
+                }
+                super.replace(fb, offset, length, text, attrs);
+            }
+        });
 
         buttonListele.addActionListener(new ActionListener() {
             @Override
@@ -200,6 +221,7 @@ public class App extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Search();
+                List();
                 ShowSelected();
             }
 
@@ -230,6 +252,7 @@ public class App extends JFrame {
         buttonKopyala.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Copy();
                 List();
             }
