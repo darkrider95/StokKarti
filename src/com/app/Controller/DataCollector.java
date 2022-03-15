@@ -1,4 +1,4 @@
-package com.app.Helper;
+package com.app.Controller;
 import com.app.Model.StokKartlari;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DataCollector {
-    public DataCollector() {
-    }
 
     public static ArrayList<StokKartlari> getStokKartiList() {
         ArrayList<StokKartlari> stokList = new ArrayList<>();
@@ -56,25 +54,6 @@ public class DataCollector {
         return true;
     }
 
-    public static boolean copyStokKarti(StokKartlari stokKartlari) {
-        String query = "INSERT INTO StokKartlari (stok_kodu, stok_adi, stok_tipi, birimi, barkodu, kdv_tipi, aciklama, olusturma_tarihi) VALUES (?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement pr = JdbcUtil.getInstance().prepareStatement(query);
-            pr.setString(1, stokKartlari.getStokKodu());
-            pr.setString(2, stokKartlari.getStokAdi());
-            pr.setInt(3, stokKartlari.getStokTipi());
-            pr.setString(4, stokKartlari.getBirimi());
-            pr.setString(5, stokKartlari.getBarkodu());
-            pr.setDouble(6, stokKartlari.getKdvTipi());
-            pr.setString(7, stokKartlari.getAciklama());
-            //pr.setDate(8, new java.sql.Date(stokKartlari.getOlusturmaTarihi().getTime()));
-            pr.setDate(8, new java.sql.Date( new Date().getTime()));
-            return pr.executeUpdate() != -1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
 
     public static boolean updateStokKarti(StokKartlari stokKartlari) {
         String query = "UPDATE StokKartlari SET stok_kodu =?,stok_adi =?,stok_tipi =?,birimi =?,barkodu =?,kdv_tipi =?,aciklama =?,olusturma_tarihi =? WHERE stok_kodu =?";
@@ -110,7 +89,5 @@ public class DataCollector {
         }
         return true;
     }
-
-
 
 }

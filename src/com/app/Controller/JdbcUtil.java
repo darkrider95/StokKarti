@@ -1,13 +1,10 @@
-package com.app.Helper;
-
+package com.app.Controller;
 import java.sql.*;
-
 import static com.app.Const.Config.*;
 
 public class JdbcUtil {
     private Connection connect = null;
     public Connection connectDB() {
-
         System.out.println("Loading driver...");
 
         try {
@@ -16,7 +13,6 @@ public class JdbcUtil {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("Cannot find the driver in the classpath!", e);
         }
-
         System.out.println("Connecting database...");
 
         try {
