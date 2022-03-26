@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DataCollector {
+public class StokKartiDataCollector {
 
     public static ArrayList<StokKartlari> getStokKartiList() {
         ArrayList<StokKartlari> stokList = new ArrayList<>();

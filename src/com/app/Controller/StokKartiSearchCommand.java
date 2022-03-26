@@ -1,6 +1,6 @@
 package com.app.Controller;
 import com.app.Model.StokKartlari;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.Locale;
 
 public class StokKartiSearchCommand implements ActionListener {
 
-    private App app;
-    public StokKartiSearchCommand(App app){
+    private StokKartiFrame app;
+    public StokKartiSearchCommand(StokKartiFrame app){
         this.app = app;
     }
 

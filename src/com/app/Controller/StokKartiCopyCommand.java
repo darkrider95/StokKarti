@@ -1,19 +1,21 @@
 package com.app.Controller;
 import com.app.Model.StokKartlari;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StokKartiCopyCommand implements ActionListener {
 
-    private App app;
-    public StokKartiCopyCommand(App app){
-        this.app = app;
+    private StokKartiFrame app;
+    private StokKartiSaveCommand saveCommand;
+    public StokKartiCopyCommand(StokKartiSaveCommand saveCommand){
+        this.saveCommand = saveCommand;
+        this.app = saveCommand.iFrame;
     }
 
     public void copy(){
-        StokKartlari stokKartlari = StokKartiSaveCommand.getFieldData();
+        StokKartlari stokKartlari = saveCommand.getFieldData();
         if(checkStokKodu(stokKartlari.getStokKodu())){
             app.dataCollector.addStokKarti(stokKartlari);
         }else{
@@ -45,3 +47,13 @@ public class StokKartiCopyCommand implements ActionListener {
         StokKartiListCommand.list();
     }
 }
+
+/*delete command injection
+stokkarti listesi için ayrı frame
+framecontrollers
+internal frame kapat küçült butonları
+kdv tip kartı kodu adı
+birim kartı kodu adı
+stok tipi kartı kodu adı
+stok kartında combobox depo isimlerini gösterecek
+ */

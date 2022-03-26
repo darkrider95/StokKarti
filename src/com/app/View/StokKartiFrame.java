@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import static com.app.View.MenuBar.createMenuBar;
 
-public class App extends JFrame {
+public class StokKartiFrame extends JInternalFrame {
 
     private JButton buttonEkle;
     private JButton buttonAra;
@@ -28,19 +28,19 @@ public class App extends JFrame {
     public JTextField fieldStokAdi;
     public JTextField fieldBarkodu;
     public JDateChooser fieldOlusturmaTarihi;
+
     public DefaultTableModel modelStokKartlari;
-    public DataCollector dataCollector;
+    public StokKartiDataCollector dataCollector;
     public ArrayList<StokKartlari> stokKartlariList;
     public ArrayList<StokKartlari> filtredStokKartlariList;
 
-    public App()  {
+    public StokKartiFrame()  {
 
         setContentPane(mainField);
         setSize(1000,600);
         setTitle("Stok Kartı");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setJMenuBar(createMenuBar(this));
-        setVisible(true);
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
 
         StokKartiListCommand listCommand = null;
@@ -59,7 +59,7 @@ public class App extends JFrame {
         buttonGuncelle.addActionListener(updateCommand = new StokKartiUpdateCommand(this));
 
         StokKartiCopyCommand copyCommand = null;
-        buttonKopyala.addActionListener(copyCommand = new StokKartiCopyCommand(this));
+        buttonKopyala.addActionListener(copyCommand = new StokKartiCopyCommand(saveCommand));
 
         FillFieldsWhenClicked fillFields = null;
         tableStokKartlari.addMouseListener((MouseListener) (fillFields = new FillFieldsWhenClicked(this)));

@@ -1,5 +1,5 @@
 package com.app.Controller;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -7,8 +7,8 @@ import java.util.Date;
 
 public class FillFieldsWhenClicked implements MouseListener {
 
-    private static App app;
-    public FillFieldsWhenClicked(App app){
+    private static StokKartiFrame app;
+    public FillFieldsWhenClicked(StokKartiFrame app){
         this.app = app;
     }
 

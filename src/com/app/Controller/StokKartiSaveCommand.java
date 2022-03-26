@@ -1,33 +1,34 @@
 package com.app.Controller;
 import com.app.Model.StokKartlari;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StokKartiSaveCommand implements ActionListener {
 
-    private static App app;
-    public StokKartiSaveCommand(App app){
-        this.app = app;
+    public StokKartiFrame iFrame;
+    public StokKartiSaveCommand(StokKartiFrame app){
+        this.iFrame = app;
     }
+
 
     public void add(){
         StokKartlari stokKartlari = getFieldData();
         if(isSuitableToSave()){
-            DataCollector.addStokKarti(stokKartlari);
+            StokKartiDataCollector.addStokKarti(stokKartlari);
             JOptionPane.showMessageDialog(null, "Ekleme işlemi başarılı.", "",JOptionPane.INFORMATION_MESSAGE);
         }
-        app.stokKartlariList = app.filtredStokKartlariList = app.dataCollector.getStokKartiList();
+        iFrame.stokKartlariList = iFrame.filtredStokKartlariList = iFrame.dataCollector.getStokKartiList();
     }
 
     public boolean checkInList(StokKartlari stokKartlari) {
-        return app.filtredStokKartlariList.stream().filter(o -> o.getStokKodu().equals(stokKartlari.getStokKodu())).findFirst().isPresent();
+        return iFrame.filtredStokKartlariList.stream().filter(o -> o.getStokKodu().equals(stokKartlari.getStokKodu())).findFirst().isPresent();
     }
 
     public boolean isSuitableToSave(){
         StokKartlari stokKartlari = getFieldData();
-        if(!checkInList(stokKartlari) && app.fieldStokKodu.getText().length() != 0 && app.fieldStokAdi.getText().length() != 0 && app.fieldBarkodu.getText().length() != 0) {
+        if(!checkInList(stokKartlari) && iFrame.fieldStokKodu.getText().length() != 0 && iFrame.fieldStokAdi.getText().length() != 0 && iFrame.fieldBarkodu.getText().length() != 0) {
             return true;
         }else{
             JOptionPane.showMessageDialog(null, "Zorunlu alanları doldurun ya da eşsiz bir stok kodu girin.", "Hata",JOptionPane.INFORMATION_MESSAGE);
@@ -35,16 +36,16 @@ public class StokKartiSaveCommand implements ActionListener {
         }
     }
 
-    public static StokKartlari getFieldData(){
+    public StokKartlari getFieldData(){
         StokKartlari stokKartlari = new StokKartlari();
-        stokKartlari.setStokKodu(app.fieldStokKodu.getText());
-        stokKartlari.setStokAdi(app.fieldStokAdi.getText());
-        stokKartlari.setStokTipi(Integer.valueOf(app.comboStokTipi.getSelectedItem().toString()));
-        stokKartlari.setBirimi(app.comboBirimi.getSelectedItem().toString());
-        stokKartlari.setBarkodu(app.fieldBarkodu.getText());
-        stokKartlari.setKdvTipi(Double.valueOf(app.comboKdvTipi.getSelectedItem().toString()));
-        stokKartlari.setAciklama(app.fieldAciklama.getText());
-        stokKartlari.setOlusturmaTarihi(app.fieldOlusturmaTarihi.getDate());
+        stokKartlari.setStokKodu(iFrame.fieldStokKodu.getText());
+        stokKartlari.setStokAdi(iFrame.fieldStokAdi.getText());
+        stokKartlari.setStokTipi(Integer.valueOf(iFrame.comboStokTipi.getSelectedItem().toString()));
+        stokKartlari.setBirimi(iFrame.comboBirimi.getSelectedItem().toString());
+        stokKartlari.setBarkodu(iFrame.fieldBarkodu.getText());
+        stokKartlari.setKdvTipi(Double.valueOf(iFrame.comboKdvTipi.getSelectedItem().toString()));
+        stokKartlari.setAciklama(iFrame.fieldAciklama.getText());
+        stokKartlari.setOlusturmaTarihi(iFrame.fieldOlusturmaTarihi.getDate());
         return stokKartlari;
     }
 

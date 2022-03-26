@@ -1,13 +1,13 @@
 package com.app.Controller;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StokKartiDeleteCommand implements ActionListener {
 
-    private App app;
-    public StokKartiDeleteCommand(App app){
+    private StokKartiFrame app;
+    public StokKartiDeleteCommand(StokKartiFrame app){
         this.app = app;
     }
 

@@ -1,17 +1,16 @@
 package com.app;
-import com.app.Controller.AppOpener;
 import com.app.Controller.JdbcUtil;
-import com.app.View.App;
+import com.app.Controller.StokKartiFrameCommand;
+import com.app.View.Depo;
+import com.app.View.MainFrame;
 
 public class Main {
 
-    private static AppOpener appOpener;
-    public Main(App app){
-        this.appOpener = appOpener;
-    }
-
     public static void main(String[] args) {
         JdbcUtil.getInstance();
-        appOpener.opener();
+        //MainFrame app = new MainFrame();
+        //app.setVisible(true);
+        //app.stokKarti.addActionListener(new StokKartiFrameCommand(app));
+        Depo depo = new Depo();
     }
 }

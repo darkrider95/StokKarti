@@ -1,15 +1,15 @@
 package com.app.Controller;
 import com.app.Const.Config;
 import com.app.Model.StokKartlari;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StokKartiListCommand  implements ActionListener {
 
-    private static App app;
-    public StokKartiListCommand(App app){
+    private static StokKartiFrame app;
+    public StokKartiListCommand(StokKartiFrame app){
         this.app = app;
     }
 

@@ -1,5 +1,5 @@
 package com.app.Controller;
-import com.app.View.App;
+import com.app.View.StokKartiFrame;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -23,8 +23,8 @@ public class ExtractToExcel extends Component {
         }
     }
 
-    private App app;
-    public ExtractToExcel(App app) throws IOException {
+    private StokKartiFrame app;
+    public ExtractToExcel(StokKartiFrame app) throws IOException {
         this.app = app;
     }
 
