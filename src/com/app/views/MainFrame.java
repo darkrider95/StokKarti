@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
             desktopPane.putClientProperty("JDesktopPane.dragMode", "outline");
 
         } else {
-            return;
+            frame.toFront();
         }
     }
 }

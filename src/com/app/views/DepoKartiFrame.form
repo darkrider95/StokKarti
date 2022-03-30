@@ -32,7 +32,7 @@
               <text value="Depo Adı"/>
             </properties>
           </component>
-          <component id="8c6e8" class="javax.swing.JTextField" binding="fieldStokAdi">
+          <component id="8c6e8" class="javax.swing.JTextField" binding="fieldDepoAdi">
             <constraints>
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="260" height="30"/>
@@ -42,7 +42,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="c9307" class="javax.swing.JTextField" binding="fieldStokKodu">
+          <component id="c9307" class="javax.swing.JTextField" binding="fieldDepoKodu">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="260" height="30"/>
@@ -63,7 +63,7 @@
               <text value="Açıklama"/>
             </properties>
           </component>
-          <component id="b6dc0" class="javax.swing.JTextArea" binding="fieldAciklama">
+          <component id="b6dc0" class="javax.swing.JTextArea" binding="fieldDepoAciklama">
             <constraints>
               <grid row="2" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="50"/>

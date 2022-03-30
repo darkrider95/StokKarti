@@ -47,13 +47,7 @@ public class StokKartiCopyCommand implements ActionListener {
     }
 }
 
-/*delete command injection
-stokkarti listesi için ayrı frame
-framecontrollers
-internal frame kapat küçült butonları
-kdv tip kartı kodu adı
-birim kartı kodu adı
-stok tipi kartı kodu adı
+/*
 stok kartında combobox depo isimlerini gösterecek
  */
 
