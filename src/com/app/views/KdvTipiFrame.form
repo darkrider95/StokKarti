@@ -32,7 +32,7 @@
               <text value="Kdv Adı"/>
             </properties>
           </component>
-          <component id="e185" class="javax.swing.JTextField" binding="fieldStokAdi">
+          <component id="e185" class="javax.swing.JTextField" binding="fieldKdvTipiAdi">
             <constraints>
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="260" height="30"/>
@@ -42,7 +42,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="904bd" class="javax.swing.JTextField" binding="fieldStokKodu">
+          <component id="904bd" class="javax.swing.JTextField" binding="fieldKdvTipiKodu">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="260" height="30"/>
