@@ -1,9 +1,16 @@
 package com.app.views;
 import com.app.Const.Config;
+import com.app.controllers.ExtractToPdf;
 import com.app.datacollectors.DepoKartiDataCollector;
 import com.app.models.DepoKartiModel;
+import net.sf.jasperreports.engine.JRException;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class DepoKartiListFrame extends JInternalFrame {
@@ -15,6 +22,7 @@ public class DepoKartiListFrame extends JInternalFrame {
     public ArrayList<DepoKartiModel> depoKartlariList;
     public ArrayList<DepoKartiModel> filteredDepoKartlariList;
     public DepoKartiDataCollector dataCollector;
+    public MainFrame mainFrame;
 
     public void list(){
         modelDepoKartlari = new DefaultTableModel();
@@ -32,7 +40,8 @@ public class DepoKartiListFrame extends JInternalFrame {
         depoKartlariList = filteredDepoKartlariList = dataCollector.getDepoKartlariList();
     }
 
-    public DepoKartiListFrame() {
+    public DepoKartiListFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         setContentPane(mainField);
         setSize(1000, 600);
         setTitle("Depo Kart Listesi");
@@ -40,5 +49,25 @@ public class DepoKartiListFrame extends JInternalFrame {
         depoKartlariList = filteredDepoKartlariList = dataCollector.getDepoKartlariList();
 
         button1.addActionListener(e -> list());
+
+        PopupMenuExample();
+    }
+
+    void PopupMenuExample(){
+        JPopupMenu popupmenu = new JPopupMenu("Extract");
+        JMenuItem cut = new JMenuItem("Pdf");
+
+        popupmenu.add(cut);
+        setComponentPopupMenu(popupmenu);
+        tableDepoKartlari.setComponentPopupMenu(popupmenu);
+        cut.addActionListener(e -> {
+            ExtractToPdf extractToPdf = new ExtractToPdf(filteredDepoKartlariList);
+            try {
+                extractToPdf.print();
+            } catch (JRException ex) {
+                ex.printStackTrace();
+            }
+        });
+
     }
 }

@@ -9,7 +9,7 @@ public class DepoKartıListesiFrameController implements ActionListener {
     DepoKartiListFrame iFrame;
     MainFrame mainFrame;
     public DepoKartıListesiFrameController(MainFrame mainFrame){
-        iFrame = new DepoKartiListFrame();
+        iFrame = new DepoKartiListFrame(mainFrame);
         this.mainFrame = mainFrame;
     }
 
