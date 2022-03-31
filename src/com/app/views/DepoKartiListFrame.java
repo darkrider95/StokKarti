@@ -4,14 +4,11 @@ import com.app.controllers.ExtractToPdf;
 import com.app.datacollectors.DepoKartiDataCollector;
 import com.app.models.DepoKartiModel;
 import net.sf.jasperreports.engine.JRException;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import static com.app.Const.Config.DEPO_LIST_JASPER_PATH;
 
 public class DepoKartiListFrame extends JInternalFrame {
     private JButton button1;
@@ -61,10 +58,12 @@ public class DepoKartiListFrame extends JInternalFrame {
         setComponentPopupMenu(popupmenu);
         tableDepoKartlari.setComponentPopupMenu(popupmenu);
         cut.addActionListener(e -> {
-            ExtractToPdf extractToPdf = new ExtractToPdf(filteredDepoKartlariList);
+            ExtractToPdf extractToPdf = new ExtractToPdf(filteredDepoKartlariList, DEPO_LIST_JASPER_PATH);
             try {
                 extractToPdf.print();
             } catch (JRException ex) {
+                ex.printStackTrace();
+            } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         });

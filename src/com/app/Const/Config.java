@@ -9,5 +9,8 @@ public class Config {
     public static final Object[] COLUMN_BIRIM_LIST = {"Birim Kodu", "Birim Adı", "Açıklama"};
     public static final Object[] COLUMN_KDV_LIST = {"Kdv Kodu", "Kdv Adı", "Açıklama"};
     public static final Object[] COLUMN_STOK_TIPI_LIST = {"Stok Tipi Kodu", "Stok Tipi Adı", "Açıklama"};
+    public static final String DEPO_LIST_JASPER_PATH = "/home/haluk/Desktop/deneme.jrxml";
+    public static final String STOK_LIST_JASPER_PATH = "/home/haluk/Desktop/StokListJasper.jrxml";
+
 
 }

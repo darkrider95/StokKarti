@@ -1,12 +1,16 @@
 package com.app.views;
 import com.app.Const.Config;
+import com.app.controllers.ExtractToPdf;
+import com.app.controllers.SendMailWithAttachment;
 import com.app.datacollectors.StokKartiDataCollector;
 import com.app.models.StokKartiModel;
+import net.sf.jasperreports.engine.JRException;
+import javax.mail.MessagingException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
+import static com.app.Const.Config.STOK_LIST_JASPER_PATH;
 
 public class StokKartiListFrame  extends JInternalFrame  {
 
@@ -47,11 +51,40 @@ public class StokKartiListFrame  extends JInternalFrame  {
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
 
 
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                list();
+        button1.addActionListener(e -> list());
+
+        PopupMenuExample();
+    }
+
+    void PopupMenuExample(){
+        JPopupMenu popupmenu = new JPopupMenu("Extract");
+        JMenuItem pdf = new JMenuItem("Pdf");
+        JMenuItem mail = new JMenuItem("Mail");
+
+        popupmenu.add(pdf);
+        popupmenu.add(mail);
+
+        setComponentPopupMenu(popupmenu);
+        tableStokKartlari.setComponentPopupMenu(popupmenu);
+
+        pdf.addActionListener(e -> {
+            ExtractToPdf extractToPdf = new ExtractToPdf(filtredStokKartlariList, STOK_LIST_JASPER_PATH);
+            try {
+                extractToPdf.print();
+            } catch (JRException ex) {
+                ex.printStackTrace();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
             }
+        });
+
+        mail.addActionListener(e -> {
+            try {
+                SendMailWithAttachment sendMailWithAttachment = new SendMailWithAttachment();
+            } catch (MessagingException ex) {
+                ex.printStackTrace();
+            }
+
         });
     }
 
