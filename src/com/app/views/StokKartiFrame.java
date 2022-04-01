@@ -1,13 +1,16 @@
 package com.app.views;
 import com.app.controllers.*;
 import com.app.datacollectors.StokKartiDataCollector;
+import com.app.face.BaseInternalFrame;
 import com.app.models.StokKartiModel;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import static com.app.views.MenuBar.createMenuBar;
 
-public class StokKartiFrame extends JInternalFrame {
+public class StokKartiFrame extends JInternalFrame implements BaseInternalFrame {
 
     private JButton buttonEkle;
     private JButton buttonAra;
@@ -39,11 +42,12 @@ public class StokKartiFrame extends JInternalFrame {
         setJMenuBar(createMenuBar(this));
         stokKartlariList = filtredStokKartlariList = dataCollector.getStokKartiList();
 
-        StokKartiSaveCommand saveCommand = null;
-        buttonEkle.addActionListener(saveCommand = new StokKartiSaveCommand(this));
 
         StokKartiSearchCommand searchCommand = null;
         buttonAra.addActionListener(searchCommand = new StokKartiSearchCommand(this));
+
+        StokKartiSaveCommand saveCommand = null;
+        buttonEkle.addActionListener(saveCommand = new StokKartiSaveCommand(searchCommand));
 
         StokKartiDeleteCommand deleteCommand = null;
         buttonSil.addActionListener(deleteCommand = new StokKartiDeleteCommand(this));
@@ -54,12 +58,23 @@ public class StokKartiFrame extends JInternalFrame {
         StokKartiCopyCommand copyCommand = null;
         buttonKopyala.addActionListener(copyCommand = new StokKartiCopyCommand(saveCommand));
 
+        FocusListener focusListener = new FocusListener(fieldStokKodu,fieldStokAdi,this);
+
+
         //FillFieldsWhenClicked fillFields = null;
         //tableStokKartlari.addMouseListener((MouseListener) (fillFields = new FillFieldsWhenClicked(this)));
     }
 
     private void createUIComponents() {
         fieldOlusturmaTarihi = new JDateChooser();
+    }
+
+    @Override
+    public void setSearchedField(String masterField) {
+        Optional<StokKartiModel> optionalBaseDataModel = stokKartlariList.stream().filter(item -> item.getStokKodu().equals(masterField)).findFirst();
+
+        if (optionalBaseDataModel.isPresent())
+            fieldStokAdi.setText(optionalBaseDataModel.get().getAdi());
     }
 }
 

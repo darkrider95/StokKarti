@@ -59,8 +59,4 @@ public class SendMailWithAttachment {
             e.printStackTrace();
         }
     }
-
-
-
-
 }

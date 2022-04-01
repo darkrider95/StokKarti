@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class StokKartiSearchCommand implements ActionListener {
 
-    private StokKartiFrame iFrame;
+    public StokKartiFrame iFrame;
     public StokKartiSearchCommand(StokKartiFrame iFrame){
         this.iFrame = iFrame;
     }

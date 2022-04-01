@@ -12,5 +12,7 @@
     <orderEntry type="library" name="jcalendar-1.4" level="project" />
     <orderEntry type="library" name="apache.poi" level="project" />
     <orderEntry type="library" name="net.sf.jasperreports" level="project" />
+    <orderEntry type="library" name="guicedee.services.javax.activation" level="project" />
+    <orderEntry type="library" name="sun.mail.javax" level="project" />
   </component>
 </module>

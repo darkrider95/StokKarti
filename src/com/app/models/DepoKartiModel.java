@@ -1,6 +1,6 @@
 package com.app.models;
 
-public class DepoKartiModel {
+public class DepoKartiModel extends BaseDataModel{
     private String depoKodu;
     private String depoAdi;
     private String depoAciklama;
@@ -35,5 +35,15 @@ public class DepoKartiModel {
 
     public void setDepoAciklama(String depoAciklama) {
         this.depoAciklama = depoAciklama;
+    }
+
+    @Override
+    public String getAdi() {
+        return getDepoAdi();
+    }
+
+    @Override
+    public String getMasterField() {
+        return getDepoKodu();
     }
 }

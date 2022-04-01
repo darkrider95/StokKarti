@@ -1,7 +1,7 @@
 package com.app.models;
 import java.util.Date;
 
-public class StokKartiModel {
+public class StokKartiModel extends BaseDataModel {
     private String stokKodu;
     private String stokAdi;
     private Integer stokTipi;
@@ -86,5 +86,15 @@ public class StokKartiModel {
 
     public void setOlusturmaTarihi(Date olusturmaTarihi) {
         this.olusturmaTarihi = olusturmaTarihi;
+    }
+
+    @Override
+    public String getAdi() {
+        return getStokAdi();
+    }
+
+    @Override
+    public String getMasterField() {
+        return getStokKodu();
     }
 }

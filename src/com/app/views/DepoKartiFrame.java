@@ -4,11 +4,13 @@ import com.app.controllers.DepoKartiDeleteCommand;
 import com.app.controllers.DepoKartiSaveCommand;
 import com.app.controllers.DepoKartiUpdateCommand;
 import com.app.datacollectors.DepoKartiDataCollector;
+import com.app.face.BaseInternalFrame;
 import com.app.models.DepoKartiModel;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class DepoKartiFrame extends JInternalFrame {
+public class DepoKartiFrame extends JInternalFrame implements BaseInternalFrame {
     private JPanel mainField;
     public JTextField fieldDepoAdi;
     private JButton buttonAra;
@@ -44,5 +46,15 @@ public class DepoKartiFrame extends JInternalFrame {
         DepoKartiCopyCommand copyCommand = null;
         buttonKopyala.addActionListener(copyCommand = new DepoKartiCopyCommand(saveCommand));
 
+        FocusListener focusListener = new FocusListener(fieldDepoKodu,fieldDepoAdi,this);
+
+    }
+
+    @Override
+    public void setSearchedField(String masterField) {
+        Optional<DepoKartiModel> optionalBaseDataModel = depoList.stream().filter(item -> item.getDepoKodu().equals(masterField)).findFirst();
+
+        if (optionalBaseDataModel.isPresent())
+            fieldDepoAdi.setText(optionalBaseDataModel.get().getAdi());
     }
 }
