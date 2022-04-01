@@ -9,10 +9,8 @@ import java.awt.event.ActionListener;
 public class StokKartiSaveCommand implements ActionListener {
 
     public StokKartiFrame iFrame;
-    public StokKartiSearchCommand searchCommand;
-    public StokKartiSaveCommand(StokKartiSearchCommand searchCommand){
-        this.searchCommand = searchCommand;
-        this.iFrame = searchCommand.iFrame;
+    public StokKartiSaveCommand(StokKartiFrame iFrame){
+        this.iFrame = iFrame;
     }
 
     public void add(){

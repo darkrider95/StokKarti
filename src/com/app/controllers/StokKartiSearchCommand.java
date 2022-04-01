@@ -4,6 +4,7 @@ import com.app.views.StokKartiFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -38,6 +39,10 @@ public class StokKartiSearchCommand implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         search();
-        FillFieldsWhenClicked.fillFieldsWhenClicked();
+        try {
+            iFrame.setSearchedField(iFrame.prepareNewModel(2));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }
