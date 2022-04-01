@@ -10,6 +10,8 @@ import java.util.Date;
 
 public class StokKartiDataCollector {
 
+
+
     public static ArrayList<StokKartiModel> getStokKartiList() {
         ArrayList<StokKartiModel> stokList = new ArrayList<>();
         String query = "SELECT * FROM StokKartlari";
@@ -89,6 +91,35 @@ public class StokKartiDataCollector {
             e.printStackTrace();
         }
         return true;
+    }
+
+
+    public static String previousQuery = "SELECT * FROM StokKartlari WHERE stok_kodu = (SELECT MAX(stok_kodu) FROM StokKartlari WHERE stok_kodu < ?)";
+    public static String nextQuery = "SELECT * FROM StokKartlari WHERE stok_kodu = (SELECT MIN(stok_kodu) FROM StokKartlari WHERE stok_kodu > ?)";
+
+    public static ArrayList<StokKartiModel> MoveInStokKartlari(String query, String stokKodu) throws SQLException {
+        ArrayList<StokKartiModel> stokList = new ArrayList<>();
+        StokKartiModel obj;
+        PreparedStatement pr = JdbcUtil.getInstance().prepareStatement(query);
+        pr.setString(1, stokKodu);
+        try {
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new StokKartiModel();
+                obj.setStokKodu(rs.getString("stok_kodu"));
+                obj.setStokAdi(rs.getString("stok_adi"));
+                obj.setStokTipi(rs.getInt("stok_tipi"));
+                obj.setBirimi(rs.getString("birimi"));
+                obj.setBarkodu(rs.getString("barkodu"));
+                obj.setKdvTipi(rs.getDouble("kdv_tipi"));
+                obj.setAciklama(rs.getString("aciklama"));
+                obj.setOlusturmaTarihi(rs.getDate("olusturma_tarihi"));
+                stokList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stokList;
     }
 
 }

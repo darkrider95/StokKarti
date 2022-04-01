@@ -1,5 +1,4 @@
 package com.app.controllers;
-import com.app.views.StokKartiFrame;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -23,9 +22,10 @@ public class ExtractToExcel extends Component {
         }
     }
 
-    private StokKartiFrame app;
-    public ExtractToExcel(StokKartiFrame app) throws IOException {
-        this.app = app;
+    private JTable jTable;
+    public ExtractToExcel(JTable jTable) throws IOException {
+        this.jTable = jTable;
+        integrate();
     }
 
     public void integrate(){
@@ -40,17 +40,17 @@ public class ExtractToExcel extends Component {
                 Sheet sheet = wb.createSheet("Stok Kartı");
                 Row rowCol = sheet.createRow(0);
 
-                for (int i = 0; i < app.tableStokKartlari.getColumnCount(); i++) {
+                for (int i = 0; i < jTable.getColumnCount(); i++) {
                     Cell cell = rowCol.createCell(1);
-                    cell.setCellValue(app.tableStokKartlari.getColumnName(i));
+                    cell.setCellValue(jTable.getColumnName(i));
                 }
 
-                for (int j = 0; j < app.tableStokKartlari.getRowCount(); j++) {
+                for (int j = 0; j < jTable.getRowCount(); j++) {
                     Row row = sheet.createRow(j);
-                    for (int k = 0; k < app.tableStokKartlari.getColumnCount(); k++) {
+                    for (int k = 0; k < jTable.getColumnCount(); k++) {
                         Cell cell = row.createCell(k);
-                        if (app.tableStokKartlari.getValueAt(j, k) != null) {
-                            cell.setCellValue(app.tableStokKartlari.getValueAt(j, k).toString());
+                        if (jTable.getValueAt(j, k) != null) {
+                            cell.setCellValue(jTable.getValueAt(j, k).toString());
                         }
                     }
                 }

@@ -16,13 +16,11 @@ public class FocusListener implements java.awt.event.FocusListener {
 
     @Override
     public void focusGained(FocusEvent e) {
-
     }
 
     @Override
     public void focusLost(FocusEvent e) {
-        String value = masterField.getText();
-        iFrame.setSearchedField(value);
+        iFrame.setSearchedField(iFrame.getCurrentDataModel());
 
     }
 }
