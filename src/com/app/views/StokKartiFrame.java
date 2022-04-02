@@ -6,6 +6,8 @@ import com.app.models.BaseDataModel;
 import com.app.models.StokKartiModel;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -31,6 +33,8 @@ public class StokKartiFrame extends JInternalFrame implements BaseInternalFrame 
     public JDateChooser fieldOlusturmaTarihi;
     private JButton buttonNext;
     private JButton buttonPrevious;
+    private JButton buttonLast;
+    private JButton buttonFirst;
 
     public StokKartiDataCollector dataCollector;
     public ArrayList<StokKartiModel> stokKartlariList = dataCollector.getStokKartiList();
@@ -68,6 +72,12 @@ public class StokKartiFrame extends JInternalFrame implements BaseInternalFrame 
 
         //FillFieldsWhenClicked fillFields = null;
         //tableStokKartlari.addMouseListener((MouseListener) (fillFields = new FillFieldsWhenClicked(this)));
+
+        LastCommand lastCommand = null;
+        buttonLast.addActionListener(lastCommand = new LastCommand(this));
+
+        FisrtCommand fisrtCommand = null;
+        buttonFirst.addActionListener(fisrtCommand = new FisrtCommand(this));
     }
 
     private void createUIComponents() {
@@ -101,7 +111,12 @@ public class StokKartiFrame extends JInternalFrame implements BaseInternalFrame 
 
         }if(type == 0){
            row = new StokKartiDataCollector().MoveInStokKartlari(StokKartiDataCollector.nextQuery, fieldStokKodu.getText()).get(0);
+        }if (type == 3){
+            row = new StokKartiDataCollector().MoveTo(true).get(0);
+        }if (type == 2){
+            row = new StokKartiDataCollector().MoveTo(false).get(0);
         }
+
 
             dataModel.setMasterField(row.getStokKodu());
             dataModel.setAdi(row.getStokAdi());

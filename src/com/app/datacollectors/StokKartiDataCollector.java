@@ -96,6 +96,9 @@ public class StokKartiDataCollector {
 
     public static String previousQuery = "SELECT * FROM StokKartlari WHERE stok_kodu = (SELECT MAX(stok_kodu) FROM StokKartlari WHERE stok_kodu < ?)";
     public static String nextQuery = "SELECT * FROM StokKartlari WHERE stok_kodu = (SELECT MIN(stok_kodu) FROM StokKartlari WHERE stok_kodu > ?)";
+    public static String lastKart = "SELECT * FROM StokKartlari WHERE stok_kodu = (SELECT MAX(stok_kodu) FROM StokKartlari)";
+    public static String firstKart = "SELECT * FROM StokKartlari WHERE stok_kodu = (SELECT MIN(stok_kodu) FROM StokKartlari)";
+
 
     public static ArrayList<StokKartiModel> MoveInStokKartlari(String query, String stokKodu) throws SQLException {
         ArrayList<StokKartiModel> stokList = new ArrayList<>();
@@ -122,4 +125,33 @@ public class StokKartiDataCollector {
         return stokList;
     }
 
+    public static ArrayList<StokKartiModel> MoveTo(boolean a) throws SQLException {
+        ArrayList<StokKartiModel> stokList = new ArrayList<>();
+        StokKartiModel obj;
+        PreparedStatement pr;
+        if(a){
+            pr = JdbcUtil.getInstance().prepareStatement(lastKart);
+        }else {
+            pr = JdbcUtil.getInstance().prepareStatement(firstKart);
+        }
+
+        try {
+            ResultSet rs = pr.executeQuery();
+            while (rs.next()){
+                obj = new StokKartiModel();
+                obj.setStokKodu(rs.getString("stok_kodu"));
+                obj.setStokAdi(rs.getString("stok_adi"));
+                obj.setStokTipi(rs.getInt("stok_tipi"));
+                obj.setBirimi(rs.getString("birimi"));
+                obj.setBarkodu(rs.getString("barkodu"));
+                obj.setKdvTipi(rs.getDouble("kdv_tipi"));
+                obj.setAciklama(rs.getString("aciklama"));
+                obj.setOlusturmaTarihi(rs.getDate("olusturma_tarihi"));
+                stokList.add(obj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stokList;
+    }
 }
